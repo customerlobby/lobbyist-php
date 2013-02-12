@@ -27,7 +27,7 @@ class Lobbyist_ApiRequestor
   {
     if ($d instanceof Lobbyist_ApiResource)
     {
-      return $d->id;
+      return $d->contact_id;
     }
     else if ($d === true)
     {
@@ -63,7 +63,7 @@ class Lobbyist_ApiRequestor
     if($id)
       $params['id'] = $id;
     
-    $params['time'] = gmdate("Y-m-d H:i:s e");
+    $params['nonce'] = gmdate("Y-m-d H:i:s e");
     list($rbody, $rcode, $myApiKey) = $this->_requestRaw($meth, $url, $params);
     $resp = $this->_interpretResponse($rbody, $rcode);
     return array($resp, $myApiKey);
@@ -101,10 +101,10 @@ class Lobbyist_ApiRequestor
 
     $absUrl = $this->apiUrl($url);
     $params = self::_encodeObjects($params);
-    $hmac = self::_generateHmac($params, $method);
+    $signature = self::_generateSignature($params, $method);
     unset($params['id']);
     
-    $headers = array('Authorization: Token token="' . $apiKey . '", hmac="' . $hmac . '"');
+    $headers = array('Authorization: Token token="' . $apiKey . '", signature="' . $signature . '"');
     if (Lobbyist::$apiVersion)
       $headers[] = 'Lobbyist-Version: ' . Lobbyist::$apiVersion;
     list($rbody, $rcode) = $this->_curlRequest($method, $absUrl, $headers, $params);
@@ -129,19 +129,19 @@ class Lobbyist_ApiRequestor
     return $resp;
   }
 
-  private function _generateHmac($params, $method)
+  private function _generateSignature($params, $method)
   {
     $params['method'] = strtolower($method);
     ksort($params);
     
     $message = self::_generateMessage($params);
     $message = urlencode($message);
-    $hmac = hash_hmac('sha256', $message, Lobbyist::$apiSecret);
+    $signature = hash_hmac('sha256', $message, Lobbyist::$apiSecret);
 
     // Remove parameters that will be generated automaticaly by Rails.
     unset($params['method']);
     
-    return $hmac;
+    return $signature;
   }
   
   private function _generateMessage($params)

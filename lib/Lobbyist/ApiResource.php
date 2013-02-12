@@ -7,7 +7,7 @@ abstract class Lobbyist_ApiResource
     $requestor = new Lobbyist_ApiRequestor();
     $url = $this->instanceUrl();
 
-    $response = $requestor->request('get', $url, $this->id);
+    $response = $requestor->request('get', $url, $this->contact_id);
     $this->_refreshFrom($response);
     return $this;
    }
@@ -34,11 +34,11 @@ abstract class Lobbyist_ApiResource
   public function instanceUrl()
   {
     $class = get_class($this);
-    if (!$this->id)
+    if (!$this->contact_id)
     {
       throw new Lobbyist_InvalidRequestError("Could not determine which URL to request: $class instance has invalid Id.", null);
     }
-    $id = Lobbyist_ApiRequestor::utf8($this->id);
+    $id = Lobbyist_ApiRequestor::utf8($this->contact_id);
     $base = self::classUrl($class);
     $extn = urlencode($id);
     return "$base/$extn";

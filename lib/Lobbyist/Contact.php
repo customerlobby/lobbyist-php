@@ -2,7 +2,7 @@
 
 class Lobbyist_Contact extends Lobbyist_ApiResource
 {
-  public $id;
+  public $contact_id;
   public $company_id;
   public $first_name;
   public $last_name;
@@ -25,6 +25,7 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
   public $facebook_like;
   public $facebook_login_review;
   public $twitter_follow;
+  public $date_added;
   public $auto_review_id;
   public $auto_invite_id;
   public $auto_customer_call_id;
@@ -32,13 +33,11 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
   public $facebook_uid;
   public $facebook_access_token;
   public $facebook_session_key;
-  public $created_at;
-  public $updated_at;
   
   public function __construct($id = null)
   {
     if ($id)
-      $this->id = $id;
+      $this->contact_id = $id;
   }
 
   public static function search($params)
@@ -81,7 +80,7 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
     {
       $contact = array();
       $contact['contact'] = $params;
-      return self::_refreshFrom(self::_update($class, $this->id, $contact));
+      return self::_refreshFrom(self::_update($class, $this->contact_id, $contact));
     }
     else
       return null;
@@ -91,7 +90,7 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
   {
     $class = get_class();
     
-    return self::_refreshFrom(self::_delete($class, $this->id));
+    return self::_refreshFrom(self::_delete($class, $this->contact_id));
   }
 
   protected function _refreshFrom($response)
@@ -129,8 +128,8 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
       if(!$instance)
         $instance = new Lobbyist_Contact();
 
-      if(isset($data['id']))
-        $instance->id = $data['id'];
+      if(isset($data['contact_id']))
+        $instance->contact_id = $data['contact_id'];
 
       if(isset($data['company_id']))
         $instance->company_id = $data['company_id'];
@@ -198,6 +197,9 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
       if(isset($data['twitter_follow']))
         $instance->twitter_follow = $data['twitter_follow'];
 
+      if(isset($data['date_added']))
+        $instance->date_added = $data['date_added'];
+
       if(isset($data['auto_review_id']))
         $instance->auto_review_id = $data['auto_review_id'];
 
@@ -218,12 +220,6 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
 
       if(isset($data['facebook_session_key']))
         $instance->facebook_session_key = $data['facebook_session_key'];
-
-      if(isset($data['created_at']))
-        $instance->created_at = $data['created_at'];
-
-      if(isset($data['updated_at']))
-        $instance->updated_at = $data['updated_at'];
     }
     return $instance;
   }

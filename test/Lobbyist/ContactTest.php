@@ -12,8 +12,8 @@ class Lobbyist_ContactTest extends Lobbyist_TestCase
     $this->assertNotNull($contacts);
     $this->assertIsA($contacts, 'Array');
     $this->assertIsA($contacts[0], 'Lobbyist_Contact');
-    $this->assertNotNull($contacts[0]->id);
-    $this->assertNotNull($contacts[0]->firstName);
+    $this->assertNotNull($contacts[0]->contact_id);
+    $this->assertNotNull($contacts[0]->first_name);
   }
   
   public function testCreateAndFind()
@@ -21,18 +21,19 @@ class Lobbyist_ContactTest extends Lobbyist_TestCase
     authorizeFromEnv();
   
     $params = array();
-    $params['first_name'] = "John";
-    $params['last_name']  = "Doe";
+    $params['first_name']    = "John";
+    $params['last_name']     = "Doe";
     $params['phone_daytime'] = "123-987-4567";
     $params['email']         = "jdoe@nowhere.com";
+    $params['date_added']    = date('m d Y');
     
     $contact = Lobbyist_Contact::create($params);
   
-    $this->assertNotNull($contact->id);
-    $this->createdId = $contact->id;
+    $this->assertNotNull($contact->contact_id);
+    $this->createdId = $contact->contact_id;
     $this->assertEqual($contact->email, 'jdoe@nowhere.com');
   
-    $contact1 = Lobbyist_Contact::find($contact->id);
+    $contact1 = Lobbyist_Contact::find($contact->contact_id);
     $this->assertEqual($contact->email, $contact1->email);
   }
   
@@ -42,7 +43,7 @@ class Lobbyist_ContactTest extends Lobbyist_TestCase
     
     $contact = Lobbyist_Contact::find($this->createdId);
     
-    $this->assertNotNull($contact->id);
+    $this->assertNotNull($contact->contact_id);
   
     $params = array();
     $params['email'] = 'newemail@nowhere.com';
@@ -50,7 +51,7 @@ class Lobbyist_ContactTest extends Lobbyist_TestCase
     
     $contact1 = Lobbyist_Contact::find($this->createdId);
     
-    $this->assertNotNull($contact1->id);
+    $this->assertNotNull($contact1->contact_id);
     $this->assertEqual($contact1->email, 'newemail@nowhere.com');
   }
   
@@ -60,7 +61,7 @@ class Lobbyist_ContactTest extends Lobbyist_TestCase
   
     $contact = Lobbyist_Contact::find($this->createdId);
     
-    $this->assertNotNull($contact->id);
+    $this->assertNotNull($contact->contact_id);
   
     $contact->delete();
   
