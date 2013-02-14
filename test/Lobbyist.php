@@ -6,11 +6,8 @@ echo "Running the Lobbyist PHP bindings test suite.\n".
 
 function authorizeFromEnv()
 {
-  //Lobbyist::setApiKey(getenv('LOBBYIST_API_KEY'));
-  //Lobbyist::setApiSecret(getenv('LOBBYIST_API_SECRET'));
-
-  Lobbyist::setApiKey('sIb2dbC0NL6MvBRbTJNO');
-  Lobbyist::setApiSecret('aee25484c4c2922071dcba166f1e227c47ddba6a2e16226d90c9e2e6f029d9ad');
+  Lobbyist::setApiKey(getenv('LOBBYIST_API_KEY'));
+  Lobbyist::setApiSecret(getenv('LOBBYIST_API_SECRET'));
 }
 
 $ok = @include_once(dirname(__FILE__).'/simpletest/autorun.php');
