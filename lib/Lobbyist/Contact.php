@@ -17,7 +17,7 @@ class Lobbyist_Contact extends Lobbyist_ApiResource
   public $country;
   public $last_service_date;
   public $notes;
-  public $email_disturb_dtatus;
+  public $email_disturb_status;
   public $unsubscribe_reason;
   public $unsubscribed_at;
   public $exclude_referral_marketing;
