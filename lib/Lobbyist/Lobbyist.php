@@ -4,9 +4,7 @@ abstract class Lobbyist
 {
   public static $apiKey;
   public static $apiSecret;
-  // TODO: Remove localhost line and verify actual API adress.
-  //public static $apiBase = 'http://api.customerlobby.com';
-  public static $apiBase = 'http://localhost:3000';
+  public static $apiBase = 'http://api.customerlobby.com';
   public static $apiVersion = null;
 
   public static function getApiKey()
@@ -37,5 +35,10 @@ abstract class Lobbyist
   public static function setApiVersion($apiVersion)
   {
     self::$apiVersion = $apiVersion;
+  }
+
+  public static function setApiBase($apiBase)
+  {
+    self::$apiBase = $apiBase;
   }
 }

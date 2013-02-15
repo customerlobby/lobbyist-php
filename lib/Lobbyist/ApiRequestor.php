@@ -170,7 +170,10 @@ class Lobbyist_ApiRequestor
       else
         $message .= ", ";
       
-      $message .= '"' . $key . '"=>"' . $value . '"';
+      if(is_int($value) || is_float($value))
+        $message .= '"' . $key . '"=>' . $value;
+      else
+        $message .= '"' . $key . '"=>"' . $value . '"';
     }
     $message .= "}";
     
@@ -198,12 +201,11 @@ class Lobbyist_ApiRequestor
     }
     else if ($meth == 'put')
     {
+      $data = json_encode($params);
       $opts[CURLOPT_CUSTOMREQUEST] = 'PUT';
-      if (count($params) > 0)
-      {
-        $encoded = self::encode($params);
-        $absUrl = "$absUrl?$encoded";
-      }
+      $opts[CURLOPT_POSTFIELDS] = $data;
+      array_push($headers, 'Content-Type: application/json');
+      array_push($headers, 'Content-Length: ' . strlen($data));
     }
     else if ($meth == 'delete')
     {

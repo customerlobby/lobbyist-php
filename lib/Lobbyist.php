@@ -21,8 +21,6 @@ require(dirname(__FILE__) . '/Lobbyist/InvalidRequestError.php');
 // Plumbing
 require(dirname(__FILE__) . '/Lobbyist/ApiRequestor.php');
 require(dirname(__FILE__) . '/Lobbyist/ApiResource.php');
-//require(dirname(__FILE__) . '/Lobbyist/SingletonApiResource.php');
-//require(dirname(__FILE__) . '/Lobbyist/List.php');
 
 // Lobbyist API Resources
 require(dirname(__FILE__) . '/Lobbyist/Contact.php');
