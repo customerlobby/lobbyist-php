@@ -197,7 +197,8 @@ class Lobbyist_ApiRequestor
     else if ($meth == 'post')
     {
       $opts[CURLOPT_POST] = 1;
-      $opts[CURLOPT_POSTFIELDS] = self::encode($params);
+      $opts[CURLOPT_POSTFIELDS] = json_encode($params);
+      array_push($headers, 'Content-Type: application/json');
     }
     else if ($meth == 'put')
     {
@@ -209,12 +210,11 @@ class Lobbyist_ApiRequestor
     }
     else if ($meth == 'delete')
     {
+      $data = json_encode($params);
       $opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-      if (count($params) > 0)
-      {
-	      $encoded = self::encode($params);
-	      $absUrl = "$absUrl?$encoded";
-      }
+      $opts[CURLOPT_POSTFIELDS] = $data;
+      array_push($headers, 'Content-Type: application/json');
+      array_push($headers, 'Content-Length: ' . strlen($data));
     }
     else
     {
